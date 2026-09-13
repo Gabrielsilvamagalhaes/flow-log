@@ -11,7 +11,7 @@
 
 ## Contexto
 
-O leitor de Redis (`FL-003` a `FL-006`) precisa de dados reais para ser escrito e testado. Este ticket entrega um projeto Node mínimo que produz, sob demanda, todos os estados que o nível 1 precisa mapear.
+O leitor de Redis (`FL-003` a `FL-006`) precisa de dados reais para ser escrito e testado. Este ticket entrega um projeto Bun + TypeScript mínimo que produz, sob demanda, todos os estados que o nível 1 precisa mapear.
 
 A versão exata do `bullmq` importa: o formato de `attemptsMade`, do `:lock` e a existência de `prioritized` vs `priority` mudam entre versões maiores.
 
@@ -19,7 +19,7 @@ A versão exata do `bullmq` importa: o formato de `attemptsMade`, do `:lock` e a
 
 ## Escopo
 
-- [ ] `examples/worker/` com `package.json`, `Queue` e `Worker` BullMQ apontando para `redis://localhost:6379`
+- [ ] `examples/bullmq-test/` com `package.json`, `Queue` e `Worker` BullMQ apontando para `redis://localhost:6379`
 - [ ] Quatro jobs cobrindo os cenários:
   - [ ] `job-rapido` — conclui em < 1s (`completed`)
   - [ ] `job-lento` — `sleep` de ~30s, para observar `active` por tempo suficiente
@@ -27,22 +27,33 @@ A versão exata do `bullmq` importa: o formato de `attemptsMade`, do `:lock` e a
   - [ ] `job-agendado` — enfileirado com `delay` (`delayed`)
 - [ ] `job-lento` usa `job.log()` nativo pelo menos 3 vezes (única fonte de log interno sem SDK)
 - [ ] Um dos payloads carrega `apiToken` e `password`, para exercitar a sanitização de `FL-010`
-- [ ] Script `npm run seed` que enfileira os 4 jobs e `npm start` que sobe o worker
-- [ ] `examples/worker/README.md` anotando a **versão exata** do `bullmq` usada
+- [ ] Script `bun run seed` que enfileira os 4 jobs e `bun run start` que sobe o worker
+- [ ] `examples/bullmq-test/README.md` anotando a **versão exata** do `bullmq` usada
 
 ### Arquivos principais
 
 | Camada | Arquivo |
 | --- | --- |
-| Fila | `examples/worker/src/queue.js` (novo) |
-| Worker | `examples/worker/src/worker.js` (novo) |
-| Docs | `examples/worker/README.md` (novo) |
+| Fila (seed) | `examples/bullmq-test/src/init-job.ts` (novo) |
+| Worker | `examples/bullmq-test/src/workers/test-worker.ts` (novo) |
+| Entrypoint | `examples/bullmq-test/index.ts` (novo) |
+| Docs | `examples/bullmq-test/README.md` (novo) |
+
+---
+
+## Decisões de implementação
+
+Ajustes em relação ao escopo original, registrados durante a implementação:
+
+- **Caminho e linguagem:** o exemplo fica em `examples/bullmq-test/` e é escrito em TypeScript, em vez de `examples/worker/` com `.js`. O seed (`Queue`) está em `src/init-job.ts`, o `Worker` em `src/workers/test-worker.ts` e o entrypoint é `index.ts`.
+- **Runtime:** o projeto roda com **Bun** (`>= 1.3`), não com Node puro. Os scripts do `package.json` chamam `bun`, então `npm run seed` / `npm start` só funcionam com o Bun instalado. Os comandos oficiais são `bun run seed` e `bun run start`. O Bun também carrega o `.env` sozinho.
+- **Impacto no FlowLog:** nenhum. O leitor de Redis consome as chaves `bull:*`, que dependem só da versão do `bullmq`, não do runtime nem da linguagem.
 
 ---
 
 ## Critérios de aceite
 
-- [ ] Com o worker parado, `npm run seed` deixa jobs em `wait` e `delayed`
+- [ ] Com o worker parado, `bun run seed` deixa jobs em `wait` e `delayed`
 - [ ] Com o worker rodando, os 4 cenários chegam aos estados esperados
 - [ ] `redis-cli KEYS 'bull:*'` (só em dev, manualmente) mostra `:meta`, `:wait`, `:active`, `:completed`, `:failed`, `:delayed` e `:<id>:logs`
 - [ ] `README.md` do exemplo declara a versão do `bullmq`
