@@ -1,7 +1,7 @@
 # FL-001 — Redis de desenvolvimento via docker-compose
 
 **Tipo:** `build`
-**Status:** A fazer
+**Status:** Feito  
 **Prioridade:** Alta
 **Áreas:** Infra
 **Estimativa:** 0,5 dia
