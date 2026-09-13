@@ -2,6 +2,8 @@
 
 Tickets de entrega derivados de [docs/nivel-1-bullmq.md](../docs/nivel-1-bullmq.md). Um ticket = uma fatia entregável e testável. Nada aqui está implementado.
 
+> As tasks são gerenciadas no **Linear**, projeto [Flowlog](https://linear.app/gabriel-silva-magalhaes/project/flowlog-81fa80816c36) (team `GAB`). O ticket `FL-XXX` corresponde à issue `GAB-(XXX+5)` — ex.: `FL-000` = `GAB-5`, `FL-020` = `GAB-25`. Status e andamento ficam lá; estes arquivos são a especificação.
+
 Cada arquivo segue a mesma estrutura: contexto/motivação, comportamento esperado, escopo com checkboxes, arquivos principais, critérios de aceite, fora de escopo e dependências.
 
 ---
