@@ -53,10 +53,12 @@ Todos os jobs vão para a fila `test-queue`.
 
 | Job | Opções | Estado esperado |
 | --- | --- | --- |
-| `quickly-job` | `removeOnComplete` | `completed` em < 1s. Payload carrega `api-token` e `db-password` (sanitização do `FL-010`) |
-| `slowly-job` | `removeOnComplete` | `active` por ~30s, com `job.log()` |
-| `error-job` | `attempts: 3`, `backoff: 5000` | `failed` após 3 tentativas |
-| `delay-job` | `delay: 10000`, `removeOnComplete` | `delayed` por 10s, depois `completed` |
+| `quickly-job` | — | `completed` em < 1s. Payload carrega `apiToken` e `password` (sanitização do `FL-010`) |
+| `slowly-job` | — | `active` por ~30s, com 3 chamadas de `job.log()` |
+| `error-job` | `attempts: 3`, `backoff: { type: "exponential", delay: 5000 }` | `failed` após 3 tentativas |
+| `delay-job` | `delay: 10000` | `delayed` por 10s, depois `completed` |
+
+Nenhum job usa `removeOnComplete`/`removeOnFail`: os jobs concluídos e falhos permanecem em `:completed` e `:failed` para inspeção.
 
 ## Inspecionando o Redis (apenas dev)
 
@@ -69,7 +71,7 @@ Chaves esperadas: `:meta`, `:wait`, `:active`, `:completed`, `:failed`, `:delaye
 ## Estrutura
 
 ```
-index.ts                        # entrypoint do worker (npm start)
+index.ts                        # entrypoint do worker (bun run start)
 src/
   init-job.ts                   # seed: cria a Queue e enfileira os jobs
   server/config/redis.ts        # conexão IORedis a partir do .env
