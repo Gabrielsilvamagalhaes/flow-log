@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "seed": "bun run ./src/init-job.ts"
+    "seed": "bun run ./src/init-job.ts",
+    "start": "bun index.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.13",
@@ -15,7 +16,7 @@
   },
   "dependencies": {
     "@types/ioredis": "^5.0.0",
-    "bullmq": "^6.3.4",
+    "bullmq": "6.3.4",
     "ioredis": "^6.0.0"
   }
 }
