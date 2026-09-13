@@ -242,6 +242,12 @@ E o que ele **não** entrega (depende de um SDK Node, fora deste escopo):
 
 ---
 
+## 🗂️ Gestão de tarefas
+
+As tasks do projeto são gerenciadas no **[Linear](https://linear.app)**. Os arquivos em [`docs/backlog/`](docs/backlog/README.md) são a especificação de origem de cada ticket (`FL-000` a `FL-020`); status, prioridade e andamento ficam no Linear.
+
+---
+
 ## 🛠️ Conceitos de FastAPI e Pydantic v2 exercitados
 
 1. **Validação de modelo (`@field_validator` e `@model_validator`):** validações dependentes entre campos (ex: exigir `stack_trace` quando `level == CRITICAL`) e validação raiz (`mode='after'`) comparando `started_at` e `ended_at`.
