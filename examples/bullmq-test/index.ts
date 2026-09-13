@@ -1,1 +1,3 @@
-console.log("Hello via Bun!");
+import { worker } from "./src/workers/test-worker";
+
+await worker.run();
