@@ -66,6 +66,56 @@ Documentação interativa em `http://localhost:8000/docs`.
 
 ---
 
+## 🐳 Redis de desenvolvimento
+
+A integração com BullMQ precisa de um Redis local com chaves reais. O `docker-compose.yml` na raiz sobe um `redis:7-alpine` na porta `6379`, com AOF ligado e volume nomeado (`redis-data`), então os dados sobrevivem a um `docker compose down`.
+
+### Subir
+
+```bash
+docker compose up -d
+```
+
+Confira se o healthcheck ficou `healthy`:
+
+```bash
+docker compose ps
+```
+
+Teste a conexão:
+
+```bash
+# com redis-cli instalado na máquina
+redis-cli -h localhost ping
+
+# sem redis-cli local, usando o do container
+docker compose exec redis-flowlog-service redis-cli ping
+```
+
+Os dois devem responder `PONG`.
+
+### Limpar
+
+Apagar todas as chaves e manter o container rodando:
+
+```bash
+docker compose exec redis-flowlog-service redis-cli FLUSHALL
+```
+
+Parar o container e manter os dados:
+
+```bash
+docker compose down
+```
+
+Parar o container e apagar o volume (recomeça do zero):
+
+```bash
+docker compose down -v
+```
+
+---
+
 ## 📋 Regras de Negócio (RNs)
 
 | ID | Regra | Estado |
