@@ -6,7 +6,7 @@
       "name": "bullmq-test",
       "dependencies": {
         "@types/ioredis": "^5.0.0",
-        "bullmq": "^6.3.4",
+        "bullmq": "6.3.4",
         "ioredis": "^6.0.0",
       },
       "devDependencies": {

@@ -52,15 +52,19 @@ A aplicação Node **não muda uma linha**. O FlowLog não é uma dependência d
 
 Base do nível 1 inteiro. Prefixo padrão `bull`, configurável no BullMQ.
 
+> **Validado em `bullmq@6.3.4` (`FL-003`).** Mapeamento completo, exemplos reais por estado e lista de divergências em [`bullmq-campos.md`](./bullmq-campos.md). As tabelas abaixo já refletem o observado.
+
 ### Chaves da fila
 
 | Chave | Tipo | Conteúdo |
 | --- | --- | --- |
 | `bull:<fila>:meta` | hash | Metadados da fila. **Serve para descobrir filas via `SCAN MATCH bull:*:meta`** |
 | `bull:<fila>:id` | string | Contador do último ID gerado |
-| `bull:<fila>:wait` | list | IDs aguardando processamento |
+| `bull:<fila>:wait` | list | IDs aguardando processamento (sem prioridade) |
+| `bull:<fila>:prioritized` | zset | IDs aguardando com `priority > 0` (score = `priority * 2^32 + contador`) |
+| `bull:<fila>:pc` | string | Contador usado no score de `prioritized` |
 | `bull:<fila>:active` | list | IDs sendo processados agora |
-| `bull:<fila>:delayed` | zset | IDs agendados (score = timestamp de liberação) |
+| `bull:<fila>:delayed` | zset | IDs agendados (score = `timestamp_liberação * 4096 + contador`; `score >> 12` devolve o timestamp) |
 | `bull:<fila>:completed` | zset | IDs concluídos (score = `finishedOn`) |
 | `bull:<fila>:failed` | zset | IDs que falharam definitivamente |
 | `bull:<fila>:paused` | list | Presente quando a fila está pausada |
@@ -71,7 +75,7 @@ Base do nível 1 inteiro. Prefixo padrão `bull`, configurável no BullMQ.
 | Chave | Tipo | Conteúdo |
 | --- | --- | --- |
 | `bull:<fila>:<id>` | hash | O job em si (campos abaixo) |
-| `bull:<fila>:<id>:lock` | string com TTL | Token do worker que segurou o job |
+| `bull:<fila>:<id>:lock` | string com TTL (30s) | `<worker_uuid>:<contador>`. Só existe em `active`; `split(":")[0]` é o ID estável do worker |
 | `bull:<fila>:<id>:logs` | list | Mensagens do `job.log()` nativo |
 
 ### Campos do hash do job
@@ -84,12 +88,15 @@ Base do nível 1 inteiro. Prefixo padrão `bull`, configurável no BullMQ.
 | `timestamp` | Momento da enfileiração (ms epoch) |
 | `processedOn` | Momento em que o worker pegou (ms epoch) |
 | `finishedOn` | Momento da conclusão ou falha final (ms epoch) |
-| `attemptsMade` | Tentativas já consumidas |
-| `returnvalue` | Retorno do processor, JSON |
+| `delay` | Atraso configurado (ms), `"0"` se imediato |
+| `priority` | Prioridade numérica, `"0"` por padrão |
+| `atm` | Tentativas já consumidas (em versões antigas: `attemptsMade`) |
+| `ats` | Tentativas iniciadas |
+| `returnvalue` | Retorno do processor, JSON (`"null"` quando o processor não retorna nada) |
 | `failedReason` | Mensagem do erro |
 | `stacktrace` | Array JSON de stack traces, um por tentativa |
 
-> **Validar no começo da Etapa 1:** o formato exato de `attemptsMade`, do valor de `:lock` (para extrair o ID do worker) e a presença de `prioritized` vs `priority` variam entre versões maiores do BullMQ. Fixe a versão do worker de teste e confirme contra ela antes de escrever o mapeamento.
+> **Divergências registradas no `FL-003`:** `attemptsMade` é gravado como `atm` no v6; jobs com prioridade ficam em `prioritized` (zset), não em `wait`; o score de `delayed` é deslocado 12 bits. Detalhes em [`bullmq-campos.md`](./bullmq-campos.md#5-divergências-em-relação-a-docsnivel-1-bullmqmd).
 
 ---
 
