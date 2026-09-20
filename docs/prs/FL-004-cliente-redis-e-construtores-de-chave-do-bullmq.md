@@ -3,7 +3,7 @@
 **Tipo:** feat
 **Escopo:** bullmq
 **Branch:** `feat/ticket-04` → `main`
-**Commits à frente:** 5 (`6719d3a`, `d95a3e3`, `a7476da`, `0eb6f58`, `b988224`)
+**Commits de implementação:** 5 (`6719d3a`, `d95a3e3`, `a7476da`, `0eb6f58`, `b988224`), mais os commits de documentação desta PR
 **Repositório:** flowlog
 **Vinculado a:** FL-004 — `docs/backlog/FL-004-cliente-redis-e-construtores-de-chave.md` · Linear [GAB-9](https://linear.app/gabriel-silva-magalhaes/issue/GAB-9) · depende de [[FL-001-redis-de-desenvolvimento-via-docker-compose]] · consome [[FL-003-validar-o-mapeamento-de-campos-contra-o-bullmq-real]]
 
@@ -128,7 +128,7 @@ curl http://localhost:8000/api/v1/redis/ping
 
 ## Checklist
 
-- [x] Documento cobre os 5 commits à frente de `origin/main`
+- [x] Documento cobre os 5 commits de implementação à frente de `origin/main`
 - [x] Apenas arquivos verificados foram citados (nenhum path inventado)
 - [x] Sessão "Como testar" tem passos reproduzíveis
 - [x] Vinculado ao ticket/backlog correspondente (FL-004 / GAB-9)
