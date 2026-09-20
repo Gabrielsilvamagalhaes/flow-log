@@ -1,7 +1,7 @@
 # FL-004 — Cliente Redis assíncrono e construtores de chave
 
 **Tipo:** `feat`
-**Status:** A fazer
+**Status:** Feito
 **Prioridade:** Alta
 **Áreas:** Backend
 **Estimativa:** 0,5 dia
@@ -19,17 +19,17 @@ O prefixo `bull` é o padrão, mas é configurável no BullMQ — nunca pode fic
 
 ## Escopo
 
-- [ ] Adicionar `redis[hiredis]` às dependências em `pyproject.toml`
-- [ ] `src/flowlog/bullmq/__init__.py`
-- [ ] `src/flowlog/bullmq/client.py`:
-  - [ ] Fábrica de conexão `redis.asyncio` com pool, `decode_responses=True`
-  - [ ] Uma única instância reaproveitada pelo app (criada no lifespan em `FL-017`)
-  - [ ] `ping()` explícito para o CLI validar a conexão antes de subir
-- [ ] `src/flowlog/bullmq/keys.py` — construtores com prefixo parametrizado:
-  - [ ] `meta_pattern()` → `bull:*:meta`
-  - [ ] `queue_key(fila, estado)` → `bull:<fila>:<estado>`
-  - [ ] `job_key(fila, id)`, `job_logs_key(fila, id)`, `job_lock_key(fila, id)`
-  - [ ] `queue_name_from_meta_key(chave)` — extrai a fila, tolerando `:` no nome da fila
+- [x] Adicionar `redis[hiredis]` às dependências em `pyproject.toml`
+- [x] `src/flowlog/bullmq/__init__.py`
+- [x] `src/flowlog/bullmq/client.py`:
+  - [x] Fábrica de conexão `redis.asyncio` com pool, `decode_responses=True`
+  - [x] Uma única instância reaproveitada pelo app (criada no lifespan em `FL-017`)
+  - [x] `ping()` explícito para o CLI validar a conexão antes de subir
+- [x] `src/flowlog/bullmq/keys.py` — construtores com prefixo parametrizado:
+  - [x] `meta_pattern()` → `bull:*:meta`
+  - [x] `queue_key(fila, estado)` → `bull:<fila>:<estado>`
+  - [x] `job_key(fila, id)`, `job_logs_key(fila, id)`, `job_lock_key(fila, id)`
+  - [x] `queue_name_from_meta_key(chave)` — extrai a fila, tolerando `:` no nome da fila
 
 ### Arquivos principais
 
@@ -43,9 +43,9 @@ O prefixo `bull` é o padrão, mas é configurável no BullMQ — nunca pode fic
 
 ## Critérios de aceite
 
-- [ ] Teste unitário de `keys.py` cobrindo prefixo padrão e prefixo customizado, sem Redis
-- [ ] `queue_name_from_meta_key("bull:pagamentos:retry:meta")` devolve `pagamentos:retry`
-- [ ] `ping()` contra o Redis de `FL-001` responde `True`
+- [x] Teste unitário de `keys.py` cobrindo prefixo padrão e prefixo customizado, sem Redis
+- [x] `queue_name_from_meta_key("bull:pagamentos:retry:meta")` devolve `pagamentos:retry`
+- [ ] `ping()` contra o Redis de `FL-001` responde `True` — a confirmar: exposto em `GET /api/v1/redis/ping`, ainda não validado contra o container de pé
 
 ---
 
