@@ -1,8 +1,7 @@
-from fastapi import APIRouter
-from fastapi.responses import JSONResponse
-from pydantic import UUID4
 from typing import Annotated
-from fastapi import Query
+
+from fastapi import APIRouter, Query
+from pydantic import UUID4
 
 from flowlog.dto.job_created_dto import JobResponseDto
 from flowlog.dto.job_log_dto import JobLogResponseDto
