@@ -29,6 +29,7 @@ const initJobs = async () => {
       message: "Job de erro iniciado",
     },
     {
+      jobId: "error-id-2",
       attempts: 3,
       backoff: {
         type: "exponential",
