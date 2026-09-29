@@ -1,0 +1,10 @@
+{
+  "name": "slowly-job",
+  "data": "{\"message\":\"Job lento iniciado\"}",
+  "opts": "{\"attempts\":0}",
+  "timestamp": "1789437312357",
+  "delay": "0",
+  "priority": "0",
+  "processedOn": "1789437349695",
+  "ats": "1"
+}
