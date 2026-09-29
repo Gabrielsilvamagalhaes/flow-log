@@ -24,6 +24,8 @@ export const worker = new Worker(
       console.error("Job de erro caiu na exceção");
       throw new Error("Job de erro");
     }
+
+    return "test string"
   },
   { connection: redis, autorun: false, concurrency: 4 },
 );
