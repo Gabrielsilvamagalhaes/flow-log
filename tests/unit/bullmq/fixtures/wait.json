@@ -1,0 +1,8 @@
+{
+  "name": "quickly-job",
+  "data": "{\"message\":\"Job rápido iniciado\",\"apiToken\":\"TEST-API-TOKEN\",\"password\":\"TEST-DB-PASSWORD\"}",
+  "opts": "{\"attempts\":0}",
+  "timestamp": "1789437528735",
+  "delay": "0",
+  "priority": "0"
+}

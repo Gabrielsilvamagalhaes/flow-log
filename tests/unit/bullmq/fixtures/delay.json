@@ -1,0 +1,8 @@
+{
+  "name": "delay-job",
+  "data": "{\"message\":\"Job com delay iniciado\"}",
+  "opts": "{\"delay\":10000,\"attempts\":0}",
+  "timestamp": "1789437528795",
+  "delay": "10000",
+  "priority": "0"
+}

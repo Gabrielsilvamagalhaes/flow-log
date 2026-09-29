@@ -1,0 +1,13 @@
+{
+  "name": "quickly-job",
+  "data": "{\"message\":\"Job rápido iniciado\",\"apiToken\":\"TEST-API-TOKEN\",\"password\":\"TEST-DB-PASSWORD\"}",
+  "opts": "{\"attempts\":0}",
+  "timestamp": "1789437312277",
+  "delay": "0",
+  "priority": "0",
+  "processedOn": "1789437349680",
+  "finishedOn": "1789437349717",
+  "ats": "1",
+  "atm": "1",
+  "returnvalue": "success"
+}
